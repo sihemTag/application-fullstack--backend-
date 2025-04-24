@@ -1,4 +1,4 @@
-package com.example.mdd.controllers;
+package com.example.mdd.dto.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,4 +22,6 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

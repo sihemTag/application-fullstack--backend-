@@ -1,4 +1,4 @@
-package com.example.mdd.dto;
+package com.example.mdd.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

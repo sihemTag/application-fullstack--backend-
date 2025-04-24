@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "article")
@@ -33,10 +33,6 @@ public class ArticleEntity {
     @JoinColumn(name = "owner_id" , nullable = false)
     private UserEntity owner;
 
-    /*@OneToMany(mappedBy = "article")
-    @JsonProperty("comments")
-    private List<CommentEntity> comments;*/
-
     public ArticleEntity() {
     }
 
@@ -48,11 +44,11 @@ public class ArticleEntity {
         this.id = id;
     }
 
-    public String getTitre() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitre(String titre) {
+    public void setTitle(String titre) {
         this.title = titre;
     }
 
@@ -88,11 +84,15 @@ public class ArticleEntity {
         this.owner = owner;
     }
 
-    /*public List<CommentEntity> getComments() {
-        return comments;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleEntity article = (ArticleEntity) o;
+        return Objects.equals(title, article.title) && Objects.equals(description, article.description) && Objects.equals(createdAt, article.createdAt) && Objects.equals(updatedAt, article.updatedAt) && Objects.equals(owner, article.owner);
     }
 
-    public void setComments(List<CommentEntity> comments) {
-        this.comments = comments;
-    }*/
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, createdAt, updatedAt, owner);
+    }
 }

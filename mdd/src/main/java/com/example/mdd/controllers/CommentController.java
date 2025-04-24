@@ -1,10 +1,10 @@
 package com.example.mdd.controllers;
 
-import com.example.mdd.dto.CommentRequest;
-import com.example.mdd.dto.ResponseMessage;
+import com.example.mdd.dto.requests.CommentRequest;
+import com.example.mdd.dto.responses.CommentDTO;
+import com.example.mdd.dto.responses.ResponseMessage;
 import com.example.mdd.exceptions.NotFoundException;
-import com.example.mdd.models.CommentEntity;
-import com.example.mdd.services.CommentService;
+import com.example.mdd.services.implementations.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,9 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public List<CommentEntity> getCommentsByArticle(@PathVariable Integer id){
-        return commentService.getCommentsByArticle(id);
+    public ResponseEntity<List<CommentDTO>> getCommentsByArticle(@PathVariable Integer id) {
+        List<CommentDTO> comments = commentService.getCommentsByArticle(id);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
+
 }

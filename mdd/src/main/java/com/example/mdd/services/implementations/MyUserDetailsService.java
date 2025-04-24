@@ -1,6 +1,6 @@
-package com.example.mdd.services;
+package com.example.mdd.services.implementations;
 
-import com.example.mdd.models.Role;
+import com.example.mdd.models.RoleEntity;
 import com.example.mdd.models.UserEntity;
 import com.example.mdd.repositories.UserRepository;
 import org.springframework.security.core.userdetails.User;
@@ -41,7 +41,7 @@ public class MyUserDetailsService implements UserDetailsService {
             return new String[]{"USER"};
         }
         return user.getRoles().stream()
-                .map(Role::getName)
+                .map(RoleEntity::getName)
                 .toArray(String[]::new);
     }
 

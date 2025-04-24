@@ -3,6 +3,7 @@ package com.example.mdd.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "comment")
@@ -69,5 +70,17 @@ public class CommentEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentEntity comment = (CommentEntity) o;
+        return Objects.equals(article, comment.article) && Objects.equals(user, comment.user) && Objects.equals(commentaire, comment.commentaire) && Objects.equals(createdAt, comment.createdAt) && Objects.equals(updatedAt, comment.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(article, user, commentaire, createdAt, updatedAt);
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -29,7 +30,7 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", table="users"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", table="roles"))
-    private List<Role> roles = new ArrayList<>();
+    private List<RoleEntity> roles = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -82,11 +83,23 @@ public class UserEntity {
         this.updatedAt = updatedAt;
     }
 
-    public List<Role> getRoles() {
+    public List<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(roles, that.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, password, createdAt, updatedAt, roles);
     }
 }

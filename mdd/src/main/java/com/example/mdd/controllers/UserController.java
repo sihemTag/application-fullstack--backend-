@@ -2,11 +2,12 @@ package com.example.mdd.controllers;
 
 
 import com.example.mdd.configuration.TokenProvider;
-import com.example.mdd.dto.RegisterDTO;
+import com.example.mdd.dto.requests.LoginRequest;
+import com.example.mdd.dto.responses.RegisterDTO;
+import com.example.mdd.dto.responses.UserDTO;
 import com.example.mdd.exceptions.UserAlreadyExistException;
-import com.example.mdd.models.UserEntity;
-import com.example.mdd.services.IUserService;
-import com.example.mdd.services.UserService;
+import com.example.mdd.services.interfaces.UserServiceInterface;
+import com.example.mdd.services.implementations.UserService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,18 +19,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
-import java.util.Optional;
 
 @RestController
 public class UserController {
 
     private final UserService userService;
-    private final IUserService iUserService;
+    private final UserServiceInterface iUserService;
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    public UserController(UserService userService, IUserService iUserService, AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
+    public UserController(UserService userService, UserServiceInterface iUserService, AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
         this.userService = userService;
         this.iUserService = iUserService;
         this.authenticationManager = authenticationManager;
@@ -77,13 +77,17 @@ public class UserController {
     }
 
     @GetMapping("/api/auth/me")
-    public Optional<UserEntity> currentUserName(Authentication authentication) {
-        return userService.currentUserName(authentication);
+    public ResponseEntity<UserDTO> currentUserName(Authentication authentication) {
+        return userService.currentUserName(authentication)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/api/user/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable Integer id){
-        return userService.getUserById(id);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
 

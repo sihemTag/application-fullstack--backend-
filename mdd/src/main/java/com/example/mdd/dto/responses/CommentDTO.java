@@ -1,25 +1,26 @@
-package com.example.mdd.dto;
+package com.example.mdd.dto.responses;
 
-import com.example.mdd.models.ArticleEntity;
-import com.example.mdd.models.UserEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
 public class CommentDTO {
+
     private Integer id;
+
     @JsonProperty("article_id")
-    private ArticleEntity article;
+    private ArticleDTO article;
+
     @JsonProperty("user_id")
-    private UserEntity user;
-    private String comment;
+    private UserDTO user;
+
+    private String commentaire;
+
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
+
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
-
-    public CommentDTO() {
-    }
 
     public Integer getId() {
         return id;
@@ -29,28 +30,29 @@ public class CommentDTO {
         this.id = id;
     }
 
-    public ArticleEntity getArticle() {
+
+    public ArticleDTO getArticle() {
         return article;
     }
 
-    public void setArticle(ArticleEntity article) {
-        this.article = article;
+    public void setArticle(ArticleDTO articleId) {
+        this.article = articleId;
     }
 
-    public UserEntity getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setUser(UserDTO userId) {
+        this.user = userId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -69,4 +71,3 @@ public class CommentDTO {
         this.updatedAt = updatedAt;
     }
 }
-
